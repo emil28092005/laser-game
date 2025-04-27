@@ -7,6 +7,8 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private List<GameObject> enemiesList;
     public UnityEvent onLevelComplete;
+
+    public UnityEvent levelCompleteCondition;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,12 +19,16 @@ public class LevelManager : MonoBehaviour
 
     void Update()
     {
+        levelCompleteCondition?.Invoke();
+    }
+
+    public void CheckIfNoEnemies()
+    {
         if (enemiesList.Count == 0)
         {
             LevelFinishEvent();
         }
     }
-
     public void AddEnemyToList(GameObject enemy)
     {
         enemiesList.Add(enemy);

@@ -39,6 +39,12 @@ void Update()
             {
                 health.Die(); // Убиваем врага
             }
+
+            if (hit.transform.gameObject.TryGetComponent<Circuit>(out Circuit circuit))
+            {
+                circuit.isOn = true;
+            }
+
         }
         else
         {
