@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(HealthManager))]
@@ -9,7 +10,7 @@ public class EnemyAI : MonoBehaviour
     private HealthManager health;
     private Renderer rend;
     private Transform playerTransform;
-
+    [FormerlySerializedAs("correspondingLevelManager")] public LevelManager levelManager;
     void Awake()
     {
         agent   = GetComponent<NavMeshAgent>();
@@ -21,6 +22,7 @@ public class EnemyAI : MonoBehaviour
         var playerCol = GameObject.FindWithTag("Player").GetComponent<Collider>();
         var selfCol   = GetComponent<Collider>();
         Physics.IgnoreCollision(playerCol, selfCol);
+        levelManager.AddEnemyToList(gameObject);
     }
 
     void Start()
@@ -35,6 +37,8 @@ public class EnemyAI : MonoBehaviour
         {
             agent.speed = Random.Range(2, 10);
         }
+        
+         
     }
 
     void Update()
@@ -57,6 +61,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (agent != null)
             agent.isStopped = true;
+        levelManager.RemoveEnemyFromList(gameObject);
         Destroy(gameObject);
     }
 }
